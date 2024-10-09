@@ -3,7 +3,7 @@ public class PlayerController : MonoBehaviour
 {
     public float speed = 6.0f;
     public float jumpHeight = 1.0f;
-    public float gravity = -9.81f;
+    public float gravity = 9.81f;
     public float turnSmoothTime = 0.1f;
 
     private CharacterController controller;
@@ -22,28 +22,16 @@ public class PlayerController : MonoBehaviour
         float zaxis = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(xaxis, 0f, zaxis);
         direction = Vector3.ClampMagnitude(direction, 1f);
-        float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, 0, ref turnSmoothVelocity, turnSmoothTime);
-
-        if (direction.magnitude >= 0.1f)
-        {
-            // Calculate target angle
-            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-
-            // Move the player
-            Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            controller.Move(moveDir.normalized * speed * Time.deltaTime);
-        }
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
-
+        velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
+        velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f, 30f*Time.deltaTime);
+        
         // Jumping
-        if (controller.isGrounded && Input.GetButtonUp("Jump"))
-        {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+        if (controller.isGrounded && Input.GetButtonDown("Jump")) {
+            velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
         }
 
         // Apply gravity
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
     }
 }
