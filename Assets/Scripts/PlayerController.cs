@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private float turnSmoothVelocity;
+    public bool funny = false;
 
     void Start()
     {
@@ -17,6 +18,31 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if(funny) {
+            AimMode();
+        } else {
+            // Movement input
+            float vertical = Input.GetAxis("Horizontal");
+            float horizontal = Mathf.Clamp(Input.GetAxis("Vertical"), -0.2f, 0.5f);
+            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical, 0f);
+            Vector3 direction = new Vector3(0f, 0f, horizontal);
+            direction *= speed;
+            direction = transform.rotation * direction;
+            velocity = Vector3.MoveTowards(velocity, direction, 40f*Time.deltaTime);
+
+            // Jumping
+            if (controller.isGrounded && Input.GetButtonDown("Jump"))
+            {
+                velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
+            }
+
+            // Apply gravity
+            velocity.y -= gravity * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
+        }
+    }
+
+    void AimMode() {
         // Movement input
         float xaxis = Input.GetAxis("Horizontal");
         float zaxis = Input.GetAxis("Vertical");
