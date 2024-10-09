@@ -22,9 +22,10 @@ public class PlayerController : MonoBehaviour
         float zaxis = Input.GetAxis("Vertical");
         Vector3 direction = new Vector3(xaxis, 0f, zaxis);
         direction = Vector3.ClampMagnitude(direction, 1f);
-        velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
-        velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f, 30f*Time.deltaTime);
-        
+        float yAngle = Mathf.Atan2(direction.z, direction.x);
+        Quaternion n = Quaternion.Euler(0f, yAngle * Mathf.Rad2Deg, 0f);
+        transform.rotation = n;
+
         // Jumping
         if (controller.isGrounded && Input.GetButtonDown("Jump")) {
             velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
