@@ -24,10 +24,9 @@ public class PlayerController : MonoBehaviour
             // Movement input
             float vertical = Input.GetAxis("Horizontal");
             float horizontal = Mathf.Clamp(Input.GetAxis("Vertical"), -0.2f, 0.5f);
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical, 0f);
-            Vector3 direction = new Vector3(0f, 0f, horizontal);
+            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical*Time.deltaTime*10f, 0f);
+            Vector3 direction = new Vector3(horizontal*Mathf.Cos(transform.rotation.eulerAngles.y), 0f, -horizontal*Mathf.Sin(transform.rotation.eulerAngles.y));
             direction *= speed;
-            direction = transform.rotation * direction;
             velocity = Vector3.MoveTowards(velocity, direction, 40f*Time.deltaTime);
 
             // Jumping
