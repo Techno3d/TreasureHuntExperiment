@@ -18,27 +18,29 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if(funny) {
-            AimMode();
-        } else {
-            // Movement input
-            float vertical = Input.GetAxis("Horizontal");
-            float horizontal = Mathf.Clamp(Input.GetAxis("Vertical"), -0.2f, 0.5f);
-            transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical*Time.deltaTime*10f, 0f);
-            Vector3 direction = new Vector3(horizontal*Mathf.Cos(transform.rotation.eulerAngles.y), 0f, -horizontal*Mathf.Sin(transform.rotation.eulerAngles.y));
-            direction *= speed;
-            velocity = Vector3.MoveTowards(velocity, direction, 40f*Time.deltaTime);
+        // Movement input
+        float vertical = Input.GetAxis("Horizontal");
+        float horizontal = Mathf.Clamp(Input.GetAxis("Vertical"), -0.2f, 0.5f);
+        transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical*Time.deltaTime*10f, 0f);
+        Vector3 direction = new Vector3(horizontal*Mathf.Cos(transform.rotation.eulerAngles.y), 0f, -horizontal*Mathf.Sin(transform.rotation.eulerAngles.y));
+        direction *= speed;
+        velocity = Vector3.MoveTowards(velocity, direction, 40f*Time.deltaTime);
 
-            // Jumping
-            if (controller.isGrounded && Input.GetButtonDown("Jump"))
-            {
-                velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
-            }
-
-            // Apply gravity
-            velocity.y -= gravity * Time.deltaTime;
-            controller.Move(velocity * Time.deltaTime);
+        // Jumping
+        if (controller.isGrounded && Input.GetButtonDown("Jump"))
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
         }
+
+        Debug.Log(controller.isGrounded);
+        // Apply gravity
+        velocity.y -= gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
+    }
+
+    void onCollisionEnter() {
+        velocity.x = 0;
+        velocity.z = 0;
     }
 
     void AimMode() {
