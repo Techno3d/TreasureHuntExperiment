@@ -9,6 +9,6 @@ public class ScoreTracker : MonoBehaviour
     private int score = 0;
     public void IncScore(int byVal) {
         score += byVal;
-        counter.text = "Score: " + score;
+        counter.text = "Ice Samples: " + score;
     }
 }
