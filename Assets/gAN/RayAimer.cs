@@ -14,7 +14,7 @@ public class RayAimer : MonoBehaviour
     {
         float upAxis = Input.GetAxis("Mouse Y");
         float horizontalAxis = Input.GetAxis("Mouse X");
-        transform.Rotate(new Vector3(-upAxis*6f, horizontalAxis*6f, 0f));
+        transform.Rotate(new Vector3(-upAxis*6f, horizontalAxis*6f, 0f), Space.World);
         if(Input.GetMouseButtonDown(0)) {
             Debug.Log("Hi");
             Vector3 point = new(cam.pixelWidth/2f, cam.pixelHeight/2f, 0f);
