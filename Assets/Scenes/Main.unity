@@ -1408,7 +1408,9 @@ MonoBehaviour:
   - {fileID: 298001244}
   - {fileID: 1335186278}
   speed: 5
-  detectionDistance: 2
+  detectionDistance: 5
+  projectilePrefab: {fileID: 0}
+  projectileSpeed: 10
 --- !u!54 &1552857107
 Rigidbody:
   m_ObjectHideFlags: 0
