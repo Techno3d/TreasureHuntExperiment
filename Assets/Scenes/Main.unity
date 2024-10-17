@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465878, g: 0.4964224, b: 0.57482475, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -562,8 +562,8 @@ Transform:
   m_GameObject: {fileID: 540124317}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.06, y: 1.72, z: -2}
-  m_LocalScale: {x: 29.24778, y: 3.5856, z: 1}
+  m_LocalPosition: {x: -0.06, y: 0.58, z: -2}
+  m_LocalScale: {x: 29.24778, y: 2.168248, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1407,9 +1407,11 @@ MonoBehaviour:
   waypoints:
   - {fileID: 298001244}
   - {fileID: 1335186278}
+  - {fileID: 298458639}
+  - {fileID: 1146689908}
   speed: 5
-  detectionDistance: 5
-  projectilePrefab: {fileID: 0}
+  detectionDistance: 10
+  projectilePrefab: {fileID: 4637039582124559445, guid: ca8171fe49c9af347ae5cf1c81e93153, type: 3}
   projectileSpeed: 10
 --- !u!54 &1552857107
 Rigidbody:
@@ -1559,7 +1561,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8776729fb964aa409224409010253cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
+  speed: 6
   jumpHeight: 2
   gravity: 9.81
   turnSmoothTime: 0.1

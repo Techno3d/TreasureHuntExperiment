@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         // Movement input
         float vertical = Input.GetAxis("Horizontal");
-        float horizontal = Mathf.Clamp(Input.GetAxis("Vertical"), -0.2f, 0.5f);
+        float horizontal = Input.GetAxis("Vertical");
         transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical*Time.deltaTime*7f, 0f);
         Vector3 direction = new Vector3(horizontal*Mathf.Cos(transform.rotation.eulerAngles.y), 0f, -horizontal*Mathf.Sin(transform.rotation.eulerAngles.y));
         direction *= speed;
