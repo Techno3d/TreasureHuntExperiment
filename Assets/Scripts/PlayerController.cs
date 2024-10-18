@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        /*
         // Movement input
         float vertical = Input.GetAxis("Horizontal");
         float horizontal = Input.GetAxis("Vertical");
@@ -36,9 +37,8 @@ public class PlayerController : MonoBehaviour
         //Apply gravity
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-        /*
-        AimMode();
         */
+        AimMode();
     }
 
     void onCollisionEnter() {
@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
         // Movement input
         float xaxis = Input.GetAxis("Horizontal");
         float zaxis = Input.GetAxis("Vertical");
+        float mousex = Input.GetAxis("Mouse X");
         Vector3 direction = new Vector3(xaxis, 0f, zaxis);
         direction = Vector3.ClampMagnitude(direction, 1f);
         velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
