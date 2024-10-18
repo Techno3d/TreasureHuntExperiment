@@ -14,7 +14,7 @@ public class TreasureSpawner : MonoBehaviour
         for(int i = 0; i < numTreasurers; i++) {
             Vector3 spawn = new Vector3(
                 Random.Range(spawnArea.xMin*5, spawnArea.xMax*5),
-                0.5f,
+                20f,
                 Random.Range(spawnArea.yMin*5, spawnArea.yMax*5)
                 
             );

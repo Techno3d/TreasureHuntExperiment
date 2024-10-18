@@ -17,34 +17,41 @@ public class Enemy : MonoBehaviour
     int pointIndex = 0;
     Vector3 vel = Vector3.zero;
     float WaitTime = 0f;
+    GameObject player;
     // Start is called before the first frame update
     void Start()
     {
-        
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        float dist = Vector3.Distance(GameObject.FindGameObjectWithTag("Player").transform.position, transform.position);
-        if(dist < detectionDistance/3) {
-            WaitTime += Time.deltaTime;
-            if(WaitTime > 0.5f) {
-                Attack();            
-                WaitTime = 0f;
+        float dist = Vector3.Distance(player.transform.position, transform.position);
+        bool shouldAttack = false;
+        if(dist < detectionDistance) {
+            RaycastHit hit;
+            shouldAttack = Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized, out hit, detectionDistance) && hit.collider.CompareTag("Player");
+            if(shouldAttack && dist < detectionDistance/3) {
+                WaitTime += Time.deltaTime;
+                if(WaitTime > 0.5f) {
+                    Attack();            
+                    WaitTime = 0f;
+                }
+                return;
+            }
+            else if (shouldAttack)
+            {
+                Chase();
+                return;
             }
         }
-        else if(dist<detectionDistance) {
-            Chase();
-        } else {
-            patrol();
-        }
+        patrol();
     }
 
     void patrol() {
         Vector3 dir = (waypoints[pointIndex].transform.position - transform.position).normalized;
-        RaycastHit hit;
-        if(Physics.Raycast(transform.position, dir, out hit, 10f)) {
+        if(Physics.Raycast(transform.position, dir, 4f)) {
             dir = Vector3.Cross(dir, Vector3.up);
         }
         transform.rotation = Quaternion.Euler(0f, Mathf.Atan2(dir.x,dir.z), 0f);
