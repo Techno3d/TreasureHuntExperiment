@@ -9,7 +9,10 @@ public class PlayerController : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private float turnSmoothVelocity;
+    float rotY = 0;
     public bool funny = false;
+    [SerializeField]
+    float rotationSpeed = 5f;
 
     void Start()
     {
@@ -18,27 +21,27 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        /*
-        // Movement input
-        float vertical = Input.GetAxis("Horizontal");
-        float horizontal = Input.GetAxis("Vertical");
-        transform.rotation = Quaternion.Euler(0f, transform.eulerAngles.y+vertical*Time.deltaTime*7f, 0f);
-        Vector3 direction = new Vector3(horizontal*Mathf.Cos(transform.rotation.eulerAngles.y), 0f, -horizontal*Mathf.Sin(transform.rotation.eulerAngles.y));
-        direction *= speed;
-        velocity.x = Mathf.MoveTowards(velocity.x, direction.x, 40f*Time.deltaTime);
-        velocity.z = Mathf.MoveTowards(velocity.z, direction.z, 40f*Time.deltaTime);
+        float xaxis = Input.GetAxis("Horizontal");
+        float zaxis = Input.GetAxis("Vertical");
+        float mousex = Input.GetAxis("Mouse X");
+        rotY += mousex;
+        transform.rotation = Quaternion.Euler(transform.rotation.x, rotY, transform.rotation.z);
+        Debug.Log(mousex);
+
+        Vector3 direction = new Vector3(xaxis*Mathf.Sin(rotY)+zaxis*Mathf.Cos(rotY), 0f, zaxis*Mathf.Sin(rotY)+xaxis*Mathf.Cos(rotY));
+
+        direction = Vector3.ClampMagnitude(direction, 1f);
+        velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
+        velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f, 30f*Time.deltaTime);
 
         // Jumping
-        if (controller.isGrounded && Input.GetButtonDown("Jump"))
-        {
+        if (controller.isGrounded && Input.GetButtonDown("Jump")) {
             velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
         }
 
-        //Apply gravity
+        // Apply gravity
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
-        */
-        AimMode();
     }
 
     void onCollisionEnter() {
@@ -51,7 +54,11 @@ public class PlayerController : MonoBehaviour
         float xaxis = Input.GetAxis("Horizontal");
         float zaxis = Input.GetAxis("Vertical");
         float mousex = Input.GetAxis("Mouse X");
-        Vector3 direction = new Vector3(xaxis, 0f, zaxis);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y + 1000, transform.rotation.z);
+        Debug.Log(mousex);
+
+        Vector3 direction = new Vector3(xaxis*10, 0f, zaxis);
+
         direction = Vector3.ClampMagnitude(direction, 1f);
         velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
         velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f, 30f*Time.deltaTime);

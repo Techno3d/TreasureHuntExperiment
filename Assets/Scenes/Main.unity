@@ -1566,6 +1566,7 @@ MonoBehaviour:
   gravity: 9.81
   turnSmoothTime: 0.1
   funny: 0
+  rotationSpeed: 5
 --- !u!143 &1731116988
 CharacterController:
   m_ObjectHideFlags: 0
