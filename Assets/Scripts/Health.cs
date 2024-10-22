@@ -9,7 +9,8 @@ public class Health : MonoBehaviour
     public Slider healthBar;
     void Start()
     {
-        
+        healthBar.maxValue = health;
+        healthBar.value = health;
     }
 
     public void TakeDamage(float damage)

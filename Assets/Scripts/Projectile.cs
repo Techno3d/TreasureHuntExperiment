@@ -5,17 +5,19 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     public float damage = 1f;
+    public string funnyTag = "Player";
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionEnter(Collision collision)
     {
-        if (other.CompareTag("Player"))
+        Debug.Log("Hi");
+        if (collision.collider.CompareTag(funnyTag))
         {
-            //PlayerHealth playerHealth = other.GetComponent<PlayerHealth>();
-            // if (playerHealth != null)
-            // {
-            //     playerHealth.TakeDamage(damage);
-            // }
-            Destroy(gameObject); // Destroy the projectile after hitting the player
+            Health health = collision.collider.GetComponent<Health>();
+            if (health != null)
+            {
+                health.TakeDamage(damage);
+            }
         }
+        Destroy(gameObject); // Destroy the projectile after hitting the player
     }
 }

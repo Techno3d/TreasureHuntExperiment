@@ -32,21 +32,21 @@ public class Enemy : MonoBehaviour
         if(dist < detectionDistance) {
             RaycastHit hit;
             shouldAttack = Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized, out hit, detectionDistance) && hit.collider.CompareTag("Player");
-            if(shouldAttack && dist < detectionDistance/3) {
+            if(shouldAttack && dist < detectionDistance/2) {
                 WaitTime += Time.deltaTime;
                 if(WaitTime > 0.5f) {
                     Attack();            
+                    Chase();
                     WaitTime = 0f;
                 }
-                return;
             }
             else if (shouldAttack)
             {
                 Chase();
-                return;
             }
+        } else {
+            patrol();
         }
-        patrol();
     }
 
     void patrol() {
@@ -91,9 +91,6 @@ public class Enemy : MonoBehaviour
         GameObject projectile = Instantiate(projectilePrefab, transform.position + bulletVel*0.1f, Quaternion.identity);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.velocity = bulletVel;
-
-        // Optionally, implement a way to deal damage to the player when hit
-        Destroy(projectile, 2f);
-
+        GetComponent<Rigidbody>().velocity = -bulletVel;
     }
 }

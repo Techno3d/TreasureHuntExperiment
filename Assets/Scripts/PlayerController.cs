@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
     public bool funny = false;
     [SerializeField]
     float rotationSpeed = 5f;
+    bool dash = false;
+    float dashTime = 0f;
 
     void Start()
     {
@@ -36,8 +38,8 @@ public class PlayerController : MonoBehaviour
         );
 
         direction = Vector3.ClampMagnitude(direction, 1f);
-        velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
-        velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f, 30f*Time.deltaTime);
+        velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f*(dash ? 2 : 1 ), 30f*Time.deltaTime);
+        velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f*(dash ? 2 : 1 ), 30f*Time.deltaTime);
 
         // Jumping
         if (controller.isGrounded && Input.GetButtonDown("Jump")) {
@@ -53,34 +55,18 @@ public class PlayerController : MonoBehaviour
         if(Input.GetKey(KeyCode.Return)) {
             Cursor.lockState = CursorLockMode.None;
         }
+        if(Input.GetKey(KeyCode.LeftShift) && dashTime > 10f) {
+            dash = true;
+            dashTime = 0f;
+        }
+        dashTime += Time.deltaTime;
+        if(dashTime > 4f) {
+            dash = false;
+        }
     }
 
-    void onCollisionEnter() {
+    void OnCollisionEnter() {
         velocity.x = 0;
         velocity.z = 0;
-    }
-
-    void AimMode() {
-        // Movement input
-        float xaxis = Input.GetAxis("Horizontal");
-        float zaxis = Input.GetAxis("Vertical");
-        float mousex = Input.GetAxis("Mouse X");
-        transform.rotation = Quaternion.Euler(transform.rotation.x, transform.rotation.y + 1000, transform.rotation.z);
-        Debug.Log(mousex);
-
-        Vector3 direction = new Vector3(xaxis*10, 0f, zaxis);
-
-        direction = Vector3.ClampMagnitude(direction, 1f);
-        velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
-        velocity.z = Mathf.MoveTowards(velocity.z, direction.z*5f, 30f*Time.deltaTime);
-
-        // Jumping
-        if (controller.isGrounded && Input.GetButtonDown("Jump")) {
-            velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
-        }
-
-        // Apply gravity
-        velocity.y -= gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
 }
