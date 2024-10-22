@@ -11,7 +11,11 @@ public class CameraController : MonoBehaviour
     {
         float up = Input.GetAxis("Mouse Y");
         upDist= Mathf.Clamp(up+upDist, -0.5f, 8f);
-        Vector3 offset = new Vector3(-offsetAmount*Mathf.Cos(target.eulerAngles.y),upDist,offsetAmount*Mathf.Sin(target.eulerAngles.y));
+        Vector3 offset = new Vector3(
+            -offsetAmount*Mathf.Cos(target.eulerAngles.y*Mathf.Deg2Rad),
+            upDist,
+            offsetAmount*Mathf.Sin(target.eulerAngles.y*Mathf.Deg2Rad)
+        );
         Vector3 desiredPosition = target.position + offset;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         transform.position = smoothedPosition;

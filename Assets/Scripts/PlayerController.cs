@@ -24,11 +24,16 @@ public class PlayerController : MonoBehaviour
         float xaxis = Input.GetAxis("Horizontal");
         float zaxis = Input.GetAxis("Vertical");
         float mousex = Input.GetAxis("Mouse X");
-        rotY += mousex;
-        transform.rotation = Quaternion.Euler(transform.rotation.x, rotY, transform.rotation.z);
-        Debug.Log(mousex);
+        rotY += mousex*rotationSpeed*Mathf.Deg2Rad*Time.deltaTime;
+        Debug.Log(rotY);
+        transform.rotation = Quaternion.Euler(transform.rotation.x, rotY*Mathf.Rad2Deg, transform.rotation.z);
 
-        Vector3 direction = new Vector3(xaxis*Mathf.Sin(rotY)+zaxis*Mathf.Cos(rotY), 0f, zaxis*Mathf.Sin(rotY)+xaxis*Mathf.Cos(rotY));
+        // I love matrix multiplication
+        Vector3 direction = new Vector3(
+            zaxis*Mathf.Cos(rotY)-xaxis*Mathf.Sin(rotY),
+            0f,
+            -zaxis*Mathf.Sin(rotY)-xaxis*Mathf.Cos(rotY)
+        );
 
         direction = Vector3.ClampMagnitude(direction, 1f);
         velocity.x = Mathf.MoveTowards(velocity.x, direction.x*5f, 30f*Time.deltaTime);
