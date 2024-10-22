@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -25,7 +26,6 @@ public class PlayerController : MonoBehaviour
         float zaxis = Input.GetAxis("Vertical");
         float mousex = Input.GetAxis("Mouse X");
         rotY += mousex*rotationSpeed*Mathf.Deg2Rad*Time.deltaTime;
-        Debug.Log(rotY);
         transform.rotation = Quaternion.Euler(transform.rotation.x, rotY*Mathf.Rad2Deg, transform.rotation.z);
 
         // I love matrix multiplication
@@ -47,6 +47,12 @@ public class PlayerController : MonoBehaviour
         // Apply gravity
         velocity.y -= gravity * Time.deltaTime;
         controller.Move(velocity * Time.deltaTime);
+        if(Input.GetKey(KeyCode.Escape)) {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        if(Input.GetKey(KeyCode.Return)) {
+            Cursor.lockState = CursorLockMode.None;
+        }
     }
 
     void onCollisionEnter() {

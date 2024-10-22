@@ -74,10 +74,11 @@ public class Enemy : MonoBehaviour
         Vector3 playerPos = GameObject.FindGameObjectWithTag("Player").transform.position;
         Vector3 dir = new Vector3(
             playerPos.x - transform.position.x,
-            transform.position.y+1,
+            0f,
             playerPos.z - transform.position.z 
         );
         dir.Normalize();
+        dir.y = transform.position.y;
         transform.rotation = Quaternion.Euler(0f, Mathf.Atan2(dir.x,dir.z), 0f);
         vel.x = Mathf.MoveTowards(vel.x, dir.x*speed, 20f*Time.deltaTime);
         vel.z = Mathf.MoveTowards(vel.z, dir.z*speed, 20f*Time.deltaTime);
@@ -87,7 +88,7 @@ public class Enemy : MonoBehaviour
     void Attack() {
         Vector3 bulletVel = (GameObject.FindGameObjectWithTag("Player").transform.position - transform.position).normalized * projectileSpeed;
         // Instantiate and shoot the projectile
-        GameObject projectile = Instantiate(projectilePrefab, transform.position + bulletVel*0.2f, Quaternion.identity);
+        GameObject projectile = Instantiate(projectilePrefab, transform.position + bulletVel*0.1f, Quaternion.identity);
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.velocity = bulletVel;
 
