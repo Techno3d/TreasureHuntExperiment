@@ -6,6 +6,7 @@ TagManager:
   tags:
   - ScoreCounter
   - Wall
+  - Enemy
   layers:
   - Default
   - TransparentFX

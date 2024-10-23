@@ -16,6 +16,11 @@ public class PlayerController : MonoBehaviour
     bool dash = false;
     float dashTime = 0f;
 
+    [SerializeField]
+    public GameObject projectilePrefab;
+    [SerializeField]
+    public float projectileSpeed = 10f;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -63,6 +68,18 @@ public class PlayerController : MonoBehaviour
         if(dashTime > 4f) {
             dash = false;
         }
+        if(Input.GetMouseButtonDown(0)) {
+            Attack();
+        }
+    }
+
+    void Attack() {
+        Vector3 bulletVel = transform.forward.normalized * projectileSpeed;
+        // Instantiate and shoot the projectile
+        GameObject projectile = Instantiate(projectilePrefab, transform.position + bulletVel*0.1f, Quaternion.identity);
+        projectile.GetComponent<Projectile>().funnyTag = "Enemy";
+        Rigidbody rb = projectile.GetComponent<Rigidbody>();
+        rb.velocity = bulletVel;
     }
 
     void OnCollisionEnter() {

@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
     public GameObject projectilePrefab;
     [SerializeField]
     public float projectileSpeed = 10f;
+    public float reloadTime = 1f;
     int pointIndex = 0;
     Vector3 vel = Vector3.zero;
     float WaitTime = 0f;
@@ -34,19 +35,20 @@ public class Enemy : MonoBehaviour
             shouldAttack = Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized, out hit, detectionDistance) && hit.collider.CompareTag("Player");
             if(shouldAttack && dist < detectionDistance/2) {
                 WaitTime += Time.deltaTime;
-                if(WaitTime > 0.5f) {
+                if(WaitTime > reloadTime) {
                     Attack();            
                     Chase();
                     WaitTime = 0f;
                 }
+                return;
             }
             else if (shouldAttack)
             {
                 Chase();
+                return;
             }
-        } else {
-            patrol();
-        }
+        } 
+        patrol();
     }
 
     void patrol() {
