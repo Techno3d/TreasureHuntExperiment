@@ -96,3 +96,7 @@ public class Enemy : MonoBehaviour
         GetComponent<Rigidbody>().velocity = -bulletVel;
     }
 }
+
+enum AIState {
+    Patrol, Chase, Attack
+}

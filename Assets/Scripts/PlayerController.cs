@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
         if(dashTime > 4f) {
             dash = false;
         }
+        // if(Input.GetMouseButton(0)) 
         if(Input.GetMouseButtonUp(0)) {
             Attack();
         }
@@ -76,7 +77,7 @@ public class PlayerController : MonoBehaviour
     void Attack() {
         Vector3 bulletVel = transform.right.normalized * projectileSpeed;
         // Instantiate and shoot the projectile
-        GameObject projectile = Instantiate(projectilePrefab, transform.position + bulletVel*0.1f, Quaternion.identity);
+        GameObject projectile = Instantiate(projectilePrefab, transform.position + Vector3.up + bulletVel*0.1f, Quaternion.identity);
         projectile.GetComponent<Projectile>().funnyTag = "Enemy";
         Rigidbody rb = projectile.GetComponent<Rigidbody>();
         rb.velocity = bulletVel;

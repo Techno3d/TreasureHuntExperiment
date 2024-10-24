@@ -37,8 +37,8 @@ public class CameraController : MonoBehaviour
         // transform.position = smoothedPosition;
         
         // Fps
-        // offset.x *= Input.GetMouseButton(0)?-1:1;
-        // offset.z *= Input.GetMouseButton(0)?-1:1;
+        // offset.x *= Input.GetMouseButton(0)?-1f:1;
+        // offset.z *= Input.GetMouseButton(0)?-1f:1;
         // desiredPosition = target.position + offset;
         // smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
         // transform.position = smoothedPosition;
