@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         float xaxis = Input.GetAxis("Horizontal");
         float zaxis = Input.GetAxis("Vertical");
-        float mousex = Input.GetAxis("Mouse X");
+        float mousex = Input.GetAxis("Mouse X") / (Input.GetMouseButton(0)?2:1);
         rotY += mousex*rotationSpeed*Mathf.Deg2Rad*Time.deltaTime;
         transform.rotation = Quaternion.Euler(transform.rotation.x, rotY*Mathf.Rad2Deg, transform.rotation.z);
 
@@ -68,13 +68,13 @@ public class PlayerController : MonoBehaviour
         if(dashTime > 4f) {
             dash = false;
         }
-        if(Input.GetMouseButtonDown(0)) {
+        if(Input.GetMouseButtonUp(0)) {
             Attack();
         }
     }
 
     void Attack() {
-        Vector3 bulletVel = transform.forward.normalized * projectileSpeed;
+        Vector3 bulletVel = transform.right.normalized * projectileSpeed;
         // Instantiate and shoot the projectile
         GameObject projectile = Instantiate(projectilePrefab, transform.position + bulletVel*0.1f, Quaternion.identity);
         projectile.GetComponent<Projectile>().funnyTag = "Enemy";
