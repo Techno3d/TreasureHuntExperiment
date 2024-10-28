@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     {
         float xaxis = Input.GetAxis("Horizontal");
         float zaxis = Input.GetAxis("Vertical");
-        float mousex = Input.GetAxis("Mouse X") / (Input.GetMouseButton(0)?2:1);
+        float mousex = Input.GetAxis("Mouse X") / (Input.GetMouseButton(0)?2.5f:1);
         rotY += mousex*rotationSpeed*Mathf.Deg2Rad*Time.deltaTime;
         transform.rotation = Quaternion.Euler(transform.rotation.x, rotY*Mathf.Rad2Deg, transform.rotation.z);
 

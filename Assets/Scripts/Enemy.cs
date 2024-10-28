@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,6 +20,7 @@ public class Enemy : MonoBehaviour
     Vector3 vel = Vector3.zero;
     float WaitTime = 0f;
     GameObject player;
+    private AIState aiState = AIState.Patrol;
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +51,48 @@ public class Enemy : MonoBehaviour
             }
         } 
         patrol();
+        switch (aiState) {
+            case AIState.Patrol:
+                patrol();
+                CheckPatrolState();
+                break;
+            case AIState.Chase:
+                Chase();
+                CheckChaseState();
+                break;
+            case AIState.Attack:
+                WaitTime += Time.deltaTime;
+                if(WaitTime > reloadTime) {
+                    Attack();            
+                    WaitTime = 0f;
+                }
+                CheckAttackState();
+                break;
+        }
+    }
+
+    private void CheckAttackState() {
+        float dist = Vector3.Distance(player.transform.position, transform.position);
+        bool inSight = false;
+        if(dist < detectionDistance) {
+            RaycastHit hit;
+            inSight = Physics.Raycast(transform.position, (player.transform.position - transform.position).normalized, out hit, detectionDistance) && hit.collider.CompareTag("Player");
+            if(inSight && dist < detectionDistance/2) {
+                aiState = AIState.Attack;
+            }
+            else if (inSight)
+            {
+                aiState = AIState.Chase;
+            }
+        } 
+    }
+
+    private void CheckChaseState() {
+        
+    }
+
+    private void CheckPatrolState() {
+
     }
 
     void patrol() {

@@ -14,7 +14,7 @@ public class CameraController : MonoBehaviour
             divDist = 3f;
         }
 
-        float up = Input.GetAxis("Mouse Y") / (Input.GetMouseButton(0)?2:1);
+        float up = Input.GetAxis("Mouse Y") / (Input.GetMouseButton(0)?2.5f:1);
         upDist= Mathf.Clamp(up+upDist, -0.5f, 8f);
         Vector3 offset = new Vector3(
             -(offsetAmount)*Mathf.Cos(target.eulerAngles.y*Mathf.Deg2Rad)/divDist,
